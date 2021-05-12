@@ -107,7 +107,6 @@ function doVideoLogic() {
         modal.classList.add('show');
     }
 
-    // Close the modal if body was clicked
     function closeModal (e) {
         if(!videoOpen) { return }
         const element = e.path[0].attributes['class'].value;
