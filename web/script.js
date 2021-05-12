@@ -1,14 +1,14 @@
 
 // Receives json with webm paths and its created date (it contains only y and m).
 // It looks like => some_date: [path1, path2, ..., pathN)
-function createPage (dates_names) {
-    const webms = Object.keys(dates_names).sort().reverse();
+function createPage (datesAndNames) {
+    const webms = Object.keys(datesAndNames).sort().reverse();
     webms.forEach(function(date) {
       let div = document.createElement('div');
       div.className = `date-container`;
       div.innerHTML = `<strong class="date">${date}</strong>`;
       document.body.append(div);
-        dates_names[date].forEach(function (name) {
+        datesAndNames[date].forEach(function (name) {
             const raw_name = name.replace(/\.[^/.]+$/, "")
             const path = `webm/${name}`
             const poster = `thumbnails/${raw_name}.png`
