@@ -80,7 +80,7 @@ function doVideoLogic() {
             end = new Date();
             timeVideoWasOpened = (end - start) / 1000.0;
             if (timeVideoWasOpened < 0.150) {
-                let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
+                const isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
                 if(isFullScreen) {
                     let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
                     closeFullScreen.call(document);
