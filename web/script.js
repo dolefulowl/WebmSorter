@@ -1,38 +1,42 @@
-// Receive json with webm paths and its created date (it contains only y and m).
+
+// Receives json with webm paths and its created date (it contains only y and m).
 // It looks like => some_date: [path1, path2, ..., pathN)
-
 function createPage (dates_names) {
-    Object.keys(dates_names).forEach(function(date) {
-
+    const webms = Object.keys(dates_names).sort().reverse();
+    webms.forEach(function(date) {
       let div = document.createElement('div');
       div.className = `date-container`;
       div.innerHTML = `<strong class="date">${date}</strong>`;
       document.body.append(div);
         dates_names[date].forEach(function (name) {
+            const raw_name = name.replace(/\.[^/.]+$/, "")
             const path = `webm/${name}`
-            let raw_name = name.replace(/\.[^/.]+$/, "")
             const poster = `thumbnails/${raw_name}.png`
-            html = `<a href="#" class="post__image" id=${path} data-name=${name} onclick="return false;"><img class="video" src="${poster}" alt=""></a>`;
+            html = `<a href="#" class="post__image" id="${path}" data-name="${name}" 
+            onclick="return false;"><img class="video" src="${poster}" alt=""></a>`;
             div.innerHTML += html
-            //div.insertAdjacentHTML('beforeend', html);
         })
     });
     doVideoLogic();
 }
 
 function doVideoLogic() {
-    const dateContainer = document.querySelector('.date-container');
-    const date = document.querySelector('.date');
     const modal = document.querySelector('.modal');
-    const videos = document.querySelectorAll('.video');
+    const videoLinks = document.querySelectorAll('.video');
     const video = document.querySelector('.modal video');
     let videoOpen = false;
+
     function dragAndZoom(elmnt) {
         let scale = 1;
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         let start, end, delta
         elmnt.onmousedown = dragMouseDown;
         elmnt.onwheel = zoom;
+        function pauseVideo() {
+            videoOpen = false;
+            video.pause();
+            modal.style.transform = `scale(1)`;
+        }
 
         function zoom(e) {
             e = e || window.event;
@@ -74,13 +78,17 @@ function doVideoLogic() {
 
         function closeDragElement(e) {
             end = new Date();
-            delta = (end - start) / 1000.0;
-            console.log(delta);
-            if (delta < 0.150) {
-                videoOpen = false;
-                video.pause();
-                modal.style.transform = `scale(1)`;
+            timeVideoWasOpened = (end - start) / 1000.0;
+            if (timeVideoWasOpened < 0.150) {
+                let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
+                if(isFullScreen) {
+                    let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
+                    closeFullScreen.call(document);
+                } else{
+                    pauseVideo();
+                }
                 modal.classList.remove('show');
+
             } else {
                 // stop moving when mouse button is released:
                 document.onmouseup = null;
@@ -93,50 +101,49 @@ function doVideoLogic() {
 
         const path = e.path[1]['id'];
         const name = e.path[1].attributes['data-name'].value
-        console.log(name)
-        console.log(e)
+
         video.src =`${path}`;
-        let raw_name = path.replace(/\.[^]+$/, "")
         document.documentElement.style.setProperty('--text', `'${name}`);
         modal.classList.add('show');
-        const video1 = document.querySelector('.modal video').videoHeight;
-        console.log(video1)
     }
+
     // Close the modal if body was clicked
     function closeModal (e) {
         if(!videoOpen) { return }
-        console.log(e)
         const element = e.path[0].attributes['class'].value;
-        console.log(element)
         if(element === 'date' || element === 'date-container') {
-            videoOpen = false;
-            video.pause();
-            modal.style.transform = `scale(1)`;
+            pauseVideo();
             modal.classList.remove('show');
-
         }
     }
-    // Add listeners
-    document.addEventListener('click', closeModal);
-    videos.forEach((video) => {
-        video.addEventListener('click', openVideo);
-    });
-    video.addEventListener('loadedmetadata', function(e){
 
-        let videoWidth = video.videoWidth;
-        let videoHeight = video.videoHeight;
+    // Calculates a centre of the screen and places a video there
+    video.addEventListener('loadedmetadata', function(e){
+        const videoWidth = video.videoWidth;
+        const videoHeight = video.videoHeight + 36; // plus border
 
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
 
         const left = (windowWidth - videoWidth) / 2;
         const top = (windowHeight - videoHeight) / 2;
+
         modal.style.top = top + "px";
         modal.style.left = left + "px";
     });
+    // Add listeners
+    document.addEventListener('click', closeModal);
+    videoLinks.forEach((link) => {
+        link.addEventListener('click', openVideo);
+    });
+    modal.addEventListener('fullscreenchange', function(event) {
+            if (!document.fullscreenElement) {
+                video.pause();
+            }
+        }, false);
     dragAndZoom(modal);
 }
-
+// calls the function from the pythpn-side and inserts its output to the js-function
 eel.get_sorted_webm()(createPage);
 
 
