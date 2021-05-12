@@ -1,33 +1,27 @@
 :root {
     --text: '';
 }
-
 html {
     background: #ddd;
 }
-
 img {
     max-height: 200px;
     max-width: 200px;
     border: 1px dashed #5d5d5d;
 }
-
 * {
     box-sizing: border-box;
 }
-
 .date-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
 }
-
 .post__image {
     width: auto;
     padding: 10px 5px;
 }
-
 .handle__player__event {
     z-index: 1000;
     position: absolute;
@@ -36,7 +30,6 @@ img {
     top: 0;
     left: 0;
 }
-
 .date {
     font-family: 'Ubuntu', sans-serif;
     background: steelblue;
@@ -46,7 +39,6 @@ img {
     width: 100%;
     height: 50px;
 }
-
 .modal {
     display: none;
     flex-direction: column;
@@ -58,7 +50,6 @@ img {
     background-color: rgb(85, 85, 85);
     min-height: 120px;
 }
-
 .modal::before {
     display: flex;
     font-family: 'Ubuntu', sans-serif;
@@ -69,11 +60,9 @@ img {
     color: #cccccc;
     padding-bottom: 2px;
 }
-
 .show {
     display:flex;
 }
-
 .back {
     z-index: 100;
     height: 100vh;
