@@ -1,0 +1,85 @@
+:root {
+    --text: '11';
+}
+@font-face {
+    font-family: 'Trebuchet MS Regular';
+    src: url('fonts/TrebuchetMS.eot');
+    src: url('fonts/TrebuchetMS.eot?#iefix') format('embedded-opentype'),
+    url('fonts/TrebuchetMS.woff') format('woff'),
+    url('fonts/TrebuchetMS.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+html {
+    background: #ddd;
+}
+
+img {
+    max-height: 200px;
+    max-width: 200px;
+    border: 1px dashed #5d5d5d;
+}
+video{
+    height: 100%;
+    width: 100%;
+}
+.date-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+.post__image {
+
+    width: auto;
+    padding: 10px 5px;
+}
+.handle__player__event {
+    z-index: 1000;
+    position: absolute;
+    height: 75%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+.date {
+    font-family: 'Trebuchet MS Regular';
+    background: steelblue;
+    text-align: center;
+    line-height: 45px;
+    font-size: 25px;
+    width: 100%;
+    height: 50px;
+}
+.modal {
+    box-sizing: content-box;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+    position: fixed;
+    padding: 3px 9px 9px;
+    background-color: rgb(85, 85, 85);
+    min-height: 120px;
+}
+.modal::before {
+    font-family: 'Trebuchet MS Regular';
+    display: flex;
+    content: var(--text);
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: #cccccc;
+    padding-bottom: 2px;
+}
+.show {
+    display:flex;
+}
+
+.back {
+    z-index: 100;
+    height: 100vh;
+
+}
+
