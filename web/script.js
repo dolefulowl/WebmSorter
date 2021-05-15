@@ -1,10 +1,9 @@
-
 // Receives json with webm paths and its created date (it contains only y and m).
 // It looks like => some_date: [path1, path2, ..., pathN)
 function createPage (dates_names) {
     const webms = Object.keys(dates_names).sort().reverse();
     webms.forEach(function(date) {
-      let div = document.createElement('div');
+      const div = document.createElement('div');
       div.className = `date-container`;
       div.innerHTML = `<strong class="date">${date}</strong>`;
       document.body.append(div);
