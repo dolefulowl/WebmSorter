@@ -1,14 +1,14 @@
 
 // Receives json with webm paths and its created date (it contains only y and m).
 // It looks like => some_date: [path1, path2, ..., pathN)
-function createPage (datesAndNames) {
-    const webms = Object.keys(datesAndNames).sort().reverse();
+function createPage (dates_names) {
+    const webms = Object.keys(dates_names).sort().reverse();
     webms.forEach(function(date) {
       let div = document.createElement('div');
       div.className = `date-container`;
       div.innerHTML = `<strong class="date">${date}</strong>`;
       document.body.append(div);
-        datesAndNames[date].forEach(function (name) {
+        dates_names[date].forEach(function (name) {
             const raw_name = name.replace(/\.[^/.]+$/, "")
             const path = `webm/${name}`
             const poster = `thumbnails/${raw_name}.png`
@@ -26,17 +26,39 @@ function doVideoLogic() {
     const video = document.querySelector('.modal video');
     let videoOpen = false;
 
+    function openVideo (e) {
+        videoOpen = true;
+
+        const path = e.path[1]['id'];
+        const name = e.path[1].attributes['data-name'].value
+
+        video.src =`${path}`;
+        document.documentElement.style.setProperty('--text', `'${name}`);
+        modal.classList.add('show');
+    }
+
+    function pauseVideo() {
+        videoOpen = false;
+        video.pause();
+        modal.style.transform = `scale(1)`;
+    }
+
+    // Close the modal if body was clicked
+    function closeModal (e) {
+        if(!videoOpen) { return }
+        const element = e.path[0].attributes['class'].value;
+        if(element === 'date' || element === 'date-container') {
+            pauseVideo();
+            modal.classList.remove('show');
+        }
+    }
+
     function dragAndZoom(elmnt) {
         let scale = 1;
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         let start, end, delta
         elmnt.onmousedown = dragMouseDown;
         elmnt.onwheel = zoom;
-        function pauseVideo() {
-            videoOpen = false;
-            video.pause();
-            modal.style.transform = `scale(1)`;
-        }
 
         function zoom(e) {
             e = e || window.event;
@@ -52,9 +74,9 @@ function doVideoLogic() {
         }
 
         function dragMouseDown(e) {
-            start = new Date();
             e = e || window.event;
             e.preventDefault();
+            start = new Date();
             // get the mouse cursor position at startup:
             pos3 = e.clientX;
             pos4 = e.clientY;
@@ -80,7 +102,7 @@ function doVideoLogic() {
             end = new Date();
             timeVideoWasOpened = (end - start) / 1000.0;
             if (timeVideoWasOpened < 0.150) {
-                const isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
+                let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
                 if(isFullScreen) {
                     let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
                     closeFullScreen.call(document);
@@ -96,25 +118,7 @@ function doVideoLogic() {
             }
         }
     }
-    function openVideo (e) {
-        videoOpen = true;
 
-        const path = e.path[1]['id'];
-        const name = e.path[1].attributes['data-name'].value
-
-        video.src =`${path}`;
-        document.documentElement.style.setProperty('--text', `'${name}`);
-        modal.classList.add('show');
-    }
-
-    function closeModal (e) {
-        if(!videoOpen) { return }
-        const element = e.path[0].attributes['class'].value;
-        if(element === 'date' || element === 'date-container') {
-            pauseVideo();
-            modal.classList.remove('show');
-        }
-    }
 
     // Calculates a centre of the screen and places a video there
     video.addEventListener('loadedmetadata', function(e){
@@ -137,7 +141,7 @@ function doVideoLogic() {
     });
     modal.addEventListener('fullscreenchange', function(event) {
             if (!document.fullscreenElement) {
-                video.pause();
+                pauseVideo();
             }
         }, false);
     dragAndZoom(modal);
