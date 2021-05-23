@@ -36,10 +36,10 @@ class Webm:
             extension = os.path.splitext(f'{webm_name}')[1]
             start_name = os.path.splitext(f'{webm_name}')[0]
             is_thumb = f'{thumb_path}{start_name}.png'
-            # Skipp if the thumb exists
+            # Skip if the thumb exists
             if os.path.exists(is_thumb):
                 continue
-            # Skipp if not video
+            # Skip if not video
             if extension not in extensions:
                 continue
             webm_path = f'{self.webm_folder}{webm_name}'
