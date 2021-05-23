@@ -3,7 +3,7 @@
 function createPage (dates_names) {
     const webms = Object.keys(dates_names).sort().reverse();
     webms.forEach(function(date) {
-      const div = document.createElement('div');
+      let div = document.createElement('div');
       div.className = `date-container`;
       div.innerHTML = `<strong class="date">${date}</strong>`;
       document.body.append(div);
@@ -52,6 +52,7 @@ function doVideoLogic() {
         }
     }
 
+
     function dragAndZoom(elmnt) {
         let scale = 1;
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -73,9 +74,9 @@ function doVideoLogic() {
         }
 
         function dragMouseDown(e) {
+            start = new Date();
             e = e || window.event;
             e.preventDefault();
-            start = new Date();
             // get the mouse cursor position at startup:
             pos3 = e.clientX;
             pos4 = e.clientY;
