@@ -46,7 +46,7 @@ class Webm:
             lang_flag = False
             raw_name = os.path.splitext(f'{webm_name}')[0]
 
-            # Since OpenCV support only latin symbols
+            # Since OpenCV supports only latin symbols
             # There's a need to set a temporary latin name to the file
             if re.search(eng, webm_name):
                 lang_flag = True
