@@ -10,6 +10,7 @@ class Webm:
         self.thumb_folder = thumb_folder
         self.webms = os.listdir(self.webm_folder)
         self.amount = len([name for name in self.webms if os.path.isfile(os.path.join(self.webm_folder, name))])
+        self.extensions = ['.webm', '.mp4']
 
     def video_to_frame(self, video, name, path_output_dir):
         vidcap = cv2.VideoCapture(video)
@@ -30,23 +31,22 @@ class Webm:
     def prepare_thumbs_filenames(self):
         webms = self.webms
         thumb_path = self.thumb_folder
-        extensions = ['.webm', '.mp4']
         eng = '[A-Za-z]'
         for webm_name in webms:
             extension = os.path.splitext(f'{webm_name}')[1]
             start_name = os.path.splitext(f'{webm_name}')[0]
             is_thumb = f'{thumb_path}{start_name}.png'
-            # Skip if the thumb exists
+            # Skipp if the thumb exists
             if os.path.exists(is_thumb):
                 continue
-            # Skip if not video
-            if extension not in extensions:
+            # Skipp if not video
+            if extension not in self.extensions:
                 continue
             webm_path = f'{self.webm_folder}{webm_name}'
             lang_flag = False
             raw_name = os.path.splitext(f'{webm_name}')[0]
 
-            # Since OpenCV supports only latin symbols
+            # Since OpenCV support only latin symbols
             # There's a need to set a temporary latin name to the file
             if re.search(eng, webm_name):
                 lang_flag = True
@@ -69,6 +69,10 @@ class Webm:
         webms = self.webms
         result = {}
         for webm_name in webms:
+            # Skipp if not video
+            extension = os.path.splitext(f'{webm_name}')[1]
+            if extension not in self.extensions:
+                continue
             timestamp = os.path.getmtime(f'{self.webm_folder}{webm_name}')
             human_date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m')
             if human_date not in result:
