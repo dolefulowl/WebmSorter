@@ -1,7 +1,5 @@
-/*
-Receives json with webm paths and its created date (it contains only y and m).
-It looks like => some_date: [path1, path2, ..., pathN)
-*/
+/*Receives json with webm paths and its created date (it contains only y and m).
+It looks like => some_date: [path1, path2, ..., pathN)*/
 function createPage (dates_names) {
     const webms = Object.keys(dates_names).sort().reverse();
 
@@ -34,7 +32,11 @@ function doVideoLogic() {
         const path = e.path[1]['id'];
         const name = e.path[1].attributes['data-name'].value
         video.src =`${path}`;
-
+        
+        // remove the custom resolution
+        video.style.height = null;
+        video.style.width = null;
+        
         modal.setAttribute('data-mediainfo', name)
         modal.classList.add('show');
     }
@@ -62,9 +64,6 @@ function doVideoLogic() {
     function pauseVideo() {
         videoOpen = false;
         video.pause();
-        // remove the custom resolution
-        video.style.height = null;
-        video.style.width = null;
     }
 
     function dragAndZoom(elmnt) {
@@ -91,8 +90,8 @@ function doVideoLogic() {
             }
             height = width * ratio;
 
-            video.style.height = height +'px';
-            video.style.width = width + 'px';
+            video.style.height = `${height}px`;
+            video.style.width = `${width}px`;
             centerModal(width, height)
         }
 
