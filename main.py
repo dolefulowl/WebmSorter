@@ -10,7 +10,7 @@ webm = Webm(WEBM_FOLDER, THUMB_FOLDER)
 eel.init('web')
 
 
-# this function only needs to call it from js
+# this function is only needed to call it from js
 @eel.expose
 def get_sorted_webm():
     return webm.sort_webm()
