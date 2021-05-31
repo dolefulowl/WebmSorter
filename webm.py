@@ -62,8 +62,6 @@ class Webm:
                     os.rename(ex_path, new_path)
                 except Exception as e:
                     print(e)
-        # It's important to update file list, because names have been changed
-        self.webms = os.listdir(self.webm_folder)
 
     def sort_webm(self):
         webms = self.webms
