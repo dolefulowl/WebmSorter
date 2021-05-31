@@ -22,14 +22,14 @@ class Webm:
                 video_list.append(file)
         return video_list
 
-    def _video_to_frame(self, video, name, path_output_dir):
+    def _video_to_frame(self, video, name):
         vidcap = cv2.VideoCapture(video)
         success, image = vidcap.read()
         frames = 0
         while True:
             if frames == 30:
                 try:
-                    cv2.imwrite(f'{path_output_dir}{name}.png', image)
+                    cv2.imwrite(f'{self.thumb_folder}{name}.png', image)
                 except Exception as e:
                     print(e)
                 vidcap.release()
@@ -59,7 +59,7 @@ class Webm:
                 lang_flag = True
                 raw_name = 'imjusttemponame'
             # Create a thumb
-            self._video_to_frame(webm_path, raw_name, thumb_path)
+            self._video_to_frame(webm_path, raw_name)
             # And then return the name as it was if it's necessary
             if lang_flag:
                 try:
@@ -83,6 +83,7 @@ class Webm:
         self._check_updates()
         result = {}
         for webm_name in self.webms:
+
             timestamp = os.path.getmtime(f'{self.webm_folder}{webm_name}')
             human_date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m')
             if human_date not in result:
