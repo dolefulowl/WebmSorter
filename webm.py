@@ -39,13 +39,10 @@ class Webm:
             frames += 1
 
     def _prepare_thumbs_filenames(self):
-        webms = self.webms
-        thumb_path = self.thumb_folder
         eng = '[A-Za-z]'
-        for webm_name in webms:
-            extension = os.path.splitext(f'{webm_name}')[1]
+        for webm_name in self.webms:
             start_name = os.path.splitext(f'{webm_name}')[0]
-            is_thumb = f'{thumb_path}{start_name}.png'
+            is_thumb = f'{self.thumb_folder}{start_name}.png'
             # Skipp if the thumb exists
             if os.path.exists(is_thumb):
                 continue
@@ -64,8 +61,8 @@ class Webm:
             if lang_flag:
                 try:
                     print('renaming')
-                    ex_path = f'{thumb_path}imjusttemponame.png'
-                    new_path = f'{thumb_path}{start_name}.png'
+                    ex_path = f'{self.thumb_folder}imjusttemponame.png'
+                    new_path = f'{self.thumb_folder}{start_name}.png'
                     os.rename(ex_path, new_path)
                 except Exception as e:
                     print(e)
