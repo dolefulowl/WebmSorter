@@ -82,9 +82,7 @@ class Webm:
     def sort_webm(self):
         self._check_updates()
         result = {}
-        print(self.amount)
         for webm_name in self.webms:
-
             timestamp = os.path.getmtime(f'{self.webm_folder}{webm_name}')
             human_date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m')
             if human_date not in result:
