@@ -5,14 +5,24 @@ from datetime import datetime
 
 
 class Webm:
-    def __init__(self, webm_folder, thumb_folder):
+    def __init__(self, webm_folder, thumb_folder, webm_amount_path='webm_amount.txt'):
+        self.extensions = ['.webm', '.mp4']
         self.webm_folder = webm_folder
         self.thumb_folder = thumb_folder
-        self.webms = os.listdir(self.webm_folder)
-        self.amount = len([name for name in self.webms if os.path.isfile(os.path.join(self.webm_folder, name))])
-        self.extensions = ['.webm', '.mp4']
+        self.webm_amount_path = webm_amount_path
+        self.webms = self._video_list()
+        self.amount = len(self.webms)
 
-    def video_to_frame(self, video, name, path_output_dir):
+    def _video_list(self):
+        files = os.listdir(self.webm_folder)
+        video_list = []
+        for file in files:
+            extension = os.path.splitext(f'{file}')[1]
+            if extension in self.extensions:
+                video_list.append(file)
+        return video_list
+
+    def _video_to_frame(self, video, name, path_output_dir):
         vidcap = cv2.VideoCapture(video)
         success, image = vidcap.read()
         frames = 0
@@ -28,7 +38,7 @@ class Webm:
             success, image = vidcap.read()
             frames += 1
 
-    def prepare_thumbs_filenames(self):
+    def _prepare_thumbs_filenames(self):
         webms = self.webms
         thumb_path = self.thumb_folder
         eng = '[A-Za-z]'
@@ -38,9 +48,6 @@ class Webm:
             is_thumb = f'{thumb_path}{start_name}.png'
             # Skipp if the thumb exists
             if os.path.exists(is_thumb):
-                continue
-            # Skipp if not video
-            if extension not in self.extensions:
                 continue
             webm_path = f'{self.webm_folder}{webm_name}'
             lang_flag = False
@@ -52,7 +59,7 @@ class Webm:
                 lang_flag = True
                 raw_name = 'imjusttemponame'
             # Create a thumb
-            self.video_to_frame(webm_path, raw_name, thumb_path)
+            self._video_to_frame(webm_path, raw_name, thumb_path)
             # And then return the name as it was if it's necessary
             if lang_flag:
                 try:
@@ -63,14 +70,21 @@ class Webm:
                 except Exception as e:
                     print(e)
 
+    # if the current webm amount in the folder is different we prepare new thumbs
+    def _check_updates(self):
+        with open(self.webm_amount_path, 'r', encoding='utf-8') as fr:
+            last_amount = int(fr.read())
+            if last_amount != self.amount:
+                with open(self.webm_amount_path, 'w', encoding='utf-8') as fw:
+                    fw.write(str(self.amount))
+                self._prepare_thumbs_filenames()
+
     def sort_webm(self):
-        webms = self.webms
+        self._check_updates()
         result = {}
-        for webm_name in webms:
-            # Skipp if not video
-            extension = os.path.splitext(f'{webm_name}')[1]
-            if extension not in self.extensions:
-                continue
+        print(self.amount)
+        for webm_name in self.webms:
+
             timestamp = os.path.getmtime(f'{self.webm_folder}{webm_name}')
             human_date = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m')
             if human_date not in result:
