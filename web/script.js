@@ -5,13 +5,15 @@ function createPage (dates_names) {
 
     webms.forEach(function(date) {
       let div = document.createElement('div');
+      let time = document.createElement('time');
       div.className = `date-container`;
-      div.innerHTML = `<strong class="date">${date}</strong>`;
-      document.body.append(div);
+      time.className = 'date'
+      time.innerHTML = `${date}`;
+      document.body.append(time, div);
       dates_names[date].forEach(function (name) {
-        const raw_name = name.replace(/\.[^/.]+$/, "")
+        const rawName = name.replace(/\.[^/.]+$/, "")
         const path = `webm/${name}`
-        const poster = `thumbnails/${raw_name}.png`
+        const poster = `thumbnails/${rawName}.png`
 
         html = `<a href="#" class="image-link" id="${path}" data-name="${name}" 
         onclick="return false;"><img class="thumbmail" src="${poster}" alt=""></a>`;
@@ -32,11 +34,11 @@ function doVideoLogic() {
         const path = e.path[1]['id'];
         const name = e.path[1].attributes['data-name'].value
         video.src =`${path}`;
-        
+
         // remove the custom resolution
         video.style.height = null;
         video.style.width = null;
-        
+
         modal.setAttribute('data-mediainfo', name)
         modal.classList.add('show');
     }
