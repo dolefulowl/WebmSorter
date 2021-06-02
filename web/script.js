@@ -136,8 +136,8 @@ function doVideoLogic() {
 
             if (timeVideoWasOpened < 0.150) {
                 video.controls = false;
-                let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
-                if(isFullScreen) {
+                let fullScreen = (document.webkitIsFullScreen || document.isFullScreen);
+                if(fullScreen) {
                     let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
                     closeFullScreen.call(document);
                 } else{
@@ -156,20 +156,18 @@ function doVideoLogic() {
 
     /*------------------------Add listeners------------------------*/
     document.addEventListener('click', closeModal);
-    thumbs.forEach((thumb) => {
-        thumb.addEventListener('click', openModal);
-    });
+    thumbs.forEach((thumb) => {thumb.addEventListener('click', openModal);});
+    
     modal.addEventListener('fullscreenchange', function(event) {
-            if (!document.fullscreenElement) {
-                pauseVideo();
-            }
-        }, false);
-    dragAndZoom(modal);
+            if (!document.fullscreenElement) {pauseVideo();}
+    }, false);
+    
     video.addEventListener('loadedmetadata', function(e){
-        const videoWidth = video.videoWidth;
-        const videoHeight = video.videoHeight + 36;  // plus border
-        centerModal(videoWidth, videoHeight);
+        centerModal(modal.offsetWidth, modal.offsetHeight);
     });
+    
+    // although it's a function, there are few listeners in it
+    dragAndZoom(modal);
 }
 
 
