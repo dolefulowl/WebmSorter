@@ -15,7 +15,7 @@ function createPage (dates_names) {
         const path = `webm/${name}`
         const poster = `thumbnails/${rawName}.png`
 
-        html = `<a href="#" class="image-link" id="${path}" data-name="${name}" 
+        html = `<a href="#" class="preview" id="${path}" data-name="${name}" 
         onclick="return false;"><img class="thumbmail" src="${poster}" alt=""></a>`;
         div.innerHTML += html
       })
