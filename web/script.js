@@ -79,9 +79,15 @@ function doVideoLogic() {
             e.preventDefault();
             let scrollDelta = e.deltaY
 
+            // calculate a ratio
+            const videoWidth = video.videoWidth;
+            const videoHeight = video.videoHeight;
+            const ratio = videoHeight / videoWidth;
+
+            // define the current video sizes
             let width = video.offsetWidth;
             let height = video.offsetHeight;
-            const ratio = height / width;
+
             const scaleVideoWidth = (width/100) * 25;
 
             if (scrollDelta > 0) {
@@ -90,6 +96,7 @@ function doVideoLogic() {
             } else {
                 width +=  scaleVideoWidth;
             }
+            // calculate a height depending on our new width and ratio
             height = width * ratio;
 
             video.style.height = `${height}px`;
