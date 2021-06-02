@@ -1,5 +1,5 @@
-/*Receives json with webm paths and its created date (it contains only y and m).
-It looks like => some_date: [path1, path2, ..., pathN)*/
+/* Receives json with webm paths and its created date (it contains only y and m).
+It looks like => some_date: [path1, path2, ..., pathN) */
 function createPage (dates_names) {
     const webms = Object.keys(dates_names).sort().reverse();
 
