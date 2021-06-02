@@ -2,18 +2,18 @@ html {
     background: #ddd;
 }
 
-img {
-    max-height: 100px;
-    max-width: 200px;
-    border: 1px dashed #5d5d5d;
-}
-
 body {
     margin: 0;
 }
 
 * {
     box-sizing: border-box;
+}
+
+img {
+    max-height: 100px;
+    max-width: 200px;
+    border: 1px dashed #5d5d5d;
 }
 
 .date {
