@@ -2,6 +2,7 @@ html {
     background: #ddd;
 }
 
+
 img {
     max-height: 100px;
     max-width: 200px;
@@ -10,7 +11,6 @@ img {
 body {
     margin: 0;
 }
-
 * {
     box-sizing: border-box;
 }
@@ -30,6 +30,7 @@ body {
     background: steelblue;
 }
 
+
 .date-container {
     width: 100%;
     display: flex;
@@ -38,6 +39,7 @@ body {
 
     padding: 10px 5px 7px;
 }
+
 
 .image-link {
     width: auto;
@@ -52,7 +54,7 @@ body {
     position: fixed;
     z-index: 1000;
 
-    padding: 24px 9px 6px 6px;
+    padding: 24px 8px 8px;
     background-color: rgb(85, 85, 85);
 }
 
@@ -82,4 +84,3 @@ body {
 .show {
     display:flex;
 }
-
