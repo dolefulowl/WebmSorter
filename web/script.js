@@ -99,8 +99,8 @@ function doVideoLogic() {
             // calculate a height depending on our new width and ratio
             height = width * ratio;
 
-            video.style.height = `${height}px`;
-            video.style.width = `${width}px`;
+            video.style.height = height + 'px';
+            video.style.width = width + 'px';
             centerModal(width, height)
         }
 
