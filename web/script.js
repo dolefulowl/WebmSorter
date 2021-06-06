@@ -1,5 +1,5 @@
-/* Receives json with webm paths and its created date (it contains only y and m).
-It looks like => some_date: [path1, path2, ..., pathN) */
+/*Receives json with webm paths and its created date (it contains only y and m).
+It looks like => some_date: [path1, path2, ..., pathN)*/
 function createPage (dates_names) {
     const webms = Object.keys(dates_names).sort().reverse();
 
@@ -38,9 +38,10 @@ function doVideoLogic() {
         // remove the custom resolution
         video.style.height = null;
         video.style.width = null;
+        video.style.maxHeight = '90vh';
 
         modal.setAttribute('data-mediainfo', name)
-        modal.classList.add('show');
+        modal.classList.add('show')
     }
 
     function closeModal (e) {
@@ -75,6 +76,8 @@ function doVideoLogic() {
         elmnt.onwheel = zoomVideo;
 
         function zoomVideo(e) {
+            video.style.maxHeight = null;
+
             e = e || window.event;
             e.preventDefault();
             let scrollDelta = e.deltaY
@@ -99,8 +102,8 @@ function doVideoLogic() {
             // calculate a height depending on our new width and ratio
             height = width * ratio;
 
-            video.style.height = height + 'px';
-            video.style.width = width + 'px';
+            video.style.height = `${height}px`;
+            video.style.width = `${width}px`;
             centerModal(width, height)
         }
 
@@ -136,8 +139,8 @@ function doVideoLogic() {
 
             if (timeVideoWasOpened < 0.150) {
                 video.controls = false;
-                let fullScreen = (document.webkitIsFullScreen || document.isFullScreen);
-                if(fullScreen) {
+                let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
+                if(isFullScreen) {
                     let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
                     closeFullScreen.call(document);
                 } else{
@@ -156,17 +159,20 @@ function doVideoLogic() {
 
     /*------------------------Add listeners------------------------*/
     document.addEventListener('click', closeModal);
-    thumbs.forEach((thumb) => {thumb.addEventListener('click', openModal);});
-    
+    thumbs.forEach((thumb) => {thumb.addEventListener('click', openModal);
+    });
+
     modal.addEventListener('fullscreenchange', function(event) {
-            if (!document.fullscreenElement) {pauseVideo();}
-    }, false);
-    
+            if (!document.fullscreenElement) {
+                pauseVideo();
+            }
+        }, false);
+
     video.addEventListener('loadedmetadata', function(e){
         centerModal(modal.offsetWidth, modal.offsetHeight);
     });
-    
-    // although it's a function, there are few listeners in it
+
+    // although it's a function, there's few listener in it
     dragAndZoom(modal);
 }
 
