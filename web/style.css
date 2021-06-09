@@ -1,5 +1,6 @@
 html {
     background: #ddd;
+    overflow-x: hidden;
 }
 
 body {
@@ -46,11 +47,16 @@ img {
 }
 
 .modal {
+    overflow: hidden;
     display: none;
     justify-content: center;
     flex-direction: column;
 
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+
     z-index: 1000;
 
     padding: 24px 8px 8px;
@@ -73,11 +79,14 @@ img {
     text-overflow: ellipsis;
     color: #cccccc;
 }
+video {
 
+}
 .modal-video {
     min-height: 59px;
     min-width: 52px;
     box-sizing: content-box;
+    overflow: hidden;
 }
 
 .show {
