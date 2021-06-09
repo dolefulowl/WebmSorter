@@ -38,6 +38,8 @@ function doVideoLogic() {
         // remove the custom resolution
         video.style.height = null;
         video.style.width = null;
+        modal.style.top = null;
+        modal.style.left = null;
         video.style.maxHeight = '90vh';
 
         modal.setAttribute('data-mediainfo', name)
@@ -53,16 +55,7 @@ function doVideoLogic() {
         }
     }
 
-    function centerModal(videoWidth, videoHeight) {
-        const windowWidth = window.innerWidth;
-        const windowHeight = window.innerHeight;
 
-        const left = (windowWidth - videoWidth) / 2;
-        const top = (windowHeight - videoHeight) / 2;
-
-        modal.style.top = top + "px";
-        modal.style.left = left + "px";
-    }
 
     function pauseVideo() {
         videoOpen = false;
@@ -95,7 +88,7 @@ function doVideoLogic() {
 
             if (scrollDelta > 0) {
                 width -=  scaleVideoWidth;
-                if (width<120) {return}
+                if (width < 120) { return }
             } else {
                 width +=  scaleVideoWidth;
             }
@@ -104,7 +97,6 @@ function doVideoLogic() {
 
             video.style.height = `${height}px`;
             video.style.width = `${width}px`;
-            centerModal(width, height)
         }
 
         function dragMouseDown(e) {
@@ -137,7 +129,7 @@ function doVideoLogic() {
             end = new Date();
             let timeVideoWasOpened = (end - start) / 1000.0;
 
-            if (timeVideoWasOpened < 0.150) {
+            if (timeVideoWasOpened < 0.130) {
                 video.controls = false;
                 let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
                 if(isFullScreen) {
@@ -167,10 +159,6 @@ function doVideoLogic() {
                 pauseVideo();
             }
         }, false);
-
-    video.addEventListener('loadedmetadata', function(e){
-        centerModal(modal.offsetWidth, modal.offsetHeight);
-    });
 
     // although it's a function, there's few listener in it
     dragAndZoom(modal);
