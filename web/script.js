@@ -8,7 +8,7 @@ function createPage (dates_names) {
       let time = document.createElement('time');
       div.className = `date-container`;
       time.className = 'date'
-      time.innerHTML = `${date}`;
+      time.innerHTML = date;
       document.body.append(time, div);
       dates_names[date].forEach(function (name) {
         const rawName = name.replace(/\.[^/.]+$/, "")
@@ -42,8 +42,8 @@ function doVideoLogic() {
         modal.style.left = null;
         video.style.maxHeight = '90vh';
 
-        modal.setAttribute('data-mediainfo', name)
-        modal.classList.add('show')
+        modal.setAttribute('data-mediainfo', name);
+        modal.classList.add('show');
     }
 
     function closeModal (e) {
@@ -55,8 +55,6 @@ function doVideoLogic() {
         }
     }
 
-
-
     function pauseVideo() {
         videoOpen = false;
         video.pause();
@@ -64,7 +62,7 @@ function doVideoLogic() {
 
     function dragAndZoom(elmnt) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;  // vars to calculate pos
-        let start, end;                             // vars to calculate the running time
+        let lastX;
         elmnt.onmousedown = dragMouseDown;
         elmnt.onwheel = zoomVideo;
 
@@ -76,15 +74,14 @@ function doVideoLogic() {
             let scrollDelta = e.deltaY
 
             // calculate a ratio
-            const videoWidth = video.videoWidth;
-            const videoHeight = video.videoHeight;
-            const ratio = videoHeight / videoWidth;
+            const ratio = video.videoHeight / video.videoWidth;
 
             // define the current video sizes
             let width = video.offsetWidth;
             let height = video.offsetHeight;
 
-            const scaleVideoWidth = (width/100) * 25;
+            // in percents
+            const scaleVideoWidth = (width / 100) * 25;
 
             if (scrollDelta > 0) {
                 width -=  scaleVideoWidth;
@@ -100,12 +97,13 @@ function doVideoLogic() {
         }
 
         function dragMouseDown(e) {
-            start = new Date();
             e = e || window.event;
             e.preventDefault();
+
             // get the mouse cursor position at startup:
             pos3 = e.clientX;
             pos4 = e.clientY;
+            lastX = pos3;
 
             document.onmouseup = closeDragElement;
             document.onmousemove = elementDrag;
@@ -126,10 +124,8 @@ function doVideoLogic() {
         }
 
         function closeDragElement(e) {
-            end = new Date();
-            let timeVideoWasOpened = (end - start) / 1000.0;
-
-            if (timeVideoWasOpened < 0.130) {
+            console.log(lastX, pos3)
+            if (lastX === pos3 || lastX === pos3 - 1 || lastX === pos3 + 1) {
                 video.controls = false;
                 let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
                 if(isFullScreen) {
@@ -139,13 +135,12 @@ function doVideoLogic() {
                     pauseVideo();
                 }
                 modal.classList.remove('show');
-            } else {
-                // stop moving when mouse button is released:
-                document.onmouseup = null;
-                document.onmousemove = null;
-                setTimeout(function(){ video.controls = true; }, 100);
             }
-        }
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+            setTimeout(function() { video.controls = true; }, 100);
+            }
     }
 
 
@@ -167,5 +162,3 @@ function doVideoLogic() {
 
 // calls the function from the pythpn-side and inserts its output to the js-function
 eel.get_sorted_webm()(createPage);
-
-
