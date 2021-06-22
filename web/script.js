@@ -5,8 +5,9 @@ function createPage (dates_names) {
 
     webms.forEach(function(date) {
       let div = document.createElement('div');
-      let time = document.createElement('time');
       div.className = `date-container`;
+        
+      let time = document.createElement('time');
       time.className = 'date'
       time.innerHTML = date;
       document.body.append(time, div);
