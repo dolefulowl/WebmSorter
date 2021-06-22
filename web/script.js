@@ -124,7 +124,6 @@ function doVideoLogic() {
         }
 
         function closeDragElement(e) {
-            console.log(lastX, pos3)
             if (lastX === pos3 || lastX === pos3 - 1 || lastX === pos3 + 1) {
                 video.controls = false;
                 let isFullScreen = (document.webkitIsFullScreen || document.isFullScreen);
