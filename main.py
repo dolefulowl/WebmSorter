@@ -5,12 +5,12 @@ THUMB_FOLDER = 'web/thumbnails/'
 WEBM_FOLDER = 'web/webm/'
 WEBM_AMOUNT_PATH = 'webm_amount.txt'
 
-# WEBM_AMOUNT_PATH is an optional argument
+# WEBM_AMOUNT_PATH is an optional argument.  
 webm = Webm(WEBM_FOLDER, THUMB_FOLDER)
 eel.init('web')
 
 
-# this function is only needed to call it from js
+# This function is only needed to call it from js.  
 @eel.expose
 def get_sorted_webm():
     return webm.sort_webm()
