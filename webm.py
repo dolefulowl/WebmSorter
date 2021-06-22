@@ -14,7 +14,7 @@ class Webm:
         self.amount = len(self.webms)
         self.tempo_name = 'tempo_name'
     
-    # get only videos from the directory
+    # Gets only videos from your directory.
     def _video_list(self):
         files = os.listdir(self.webm_folder)
         video_list = []
@@ -52,14 +52,14 @@ class Webm:
             lang_flag = False
 
             # Since OpenCV support only latin symbols
-            # There's a need to set a temporary latin name to the file
+            # there's a need to set a temporary latin name to the file.
             if re.search(eng, webm_name):
                 lang_flag = True
                 self._video_to_frame(webm_path, self.tempo_name)
             else:
                 self._video_to_frame(webm_path, start_name)
 
-            # And then return the name as it was if it's necessary
+            # And then return the name as it was if it's necessary.
             if lang_flag:
                 try:
                     print('renaming')
@@ -69,7 +69,7 @@ class Webm:
                 except Exception as e:
                     print(e)
 
-    # if the current webm amount in the folder is different we prepare new thumbs
+    # If the current webm amount in the folder is different, we prepare new thumbs.
     def _check_updates(self):
         with open(self.webm_amount_path, 'r', encoding='utf-8') as fr:
             last_amount = int(fr.read())
