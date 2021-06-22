@@ -12,6 +12,7 @@ class Webm:
         self.webm_amount_path = webm_amount_path
         self.webms = self._video_list()
         self.amount = len(self.webms)
+        self.tempo_name = 'tempo_name'
     
     # get only videos from the directory
     def _video_list(self):
@@ -49,20 +50,20 @@ class Webm:
                 continue
             webm_path = f'{self.webm_folder}{webm_name}'
             lang_flag = False
-            raw_name = os.path.splitext(f'{webm_name}')[0]
 
             # Since OpenCV support only latin symbols
             # There's a need to set a temporary latin name to the file
             if re.search(eng, webm_name):
                 lang_flag = True
-                raw_name = 'imjusttemponame'
-            # Create a thumb
-            self._video_to_frame(webm_path, raw_name)
+                self._video_to_frame(webm_path, self.tempo_name)
+            else:
+                self._video_to_frame(webm_path, start_name)
+
             # And then return the name as it was if it's necessary
             if lang_flag:
                 try:
                     print('renaming')
-                    ex_path = f'{self.thumb_folder}imjusttemponame.png'
+                    ex_path = f'{self.thumb_folder}{self.tempo_name}.png'
                     new_path = f'{self.thumb_folder}{start_name}.png'
                     os.rename(ex_path, new_path)
                 except Exception as e:
