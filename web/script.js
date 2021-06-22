@@ -75,11 +75,9 @@ function doVideoLogic() {
             
             video.style.maxHeight = null;
             let scrollDelta = e.deltaY;
-
-            // calculate a ratio
+            
             const ratio = video.videoHeight / video.videoWidth;
-
-            // define the current video sizes
+            
             let width = video.offsetWidth;
             let height = video.offsetHeight;
 
@@ -92,7 +90,7 @@ function doVideoLogic() {
             } else {
                 width +=  scaleVideoWidth;
             }
-            // calculate a height depending on our new width and ratio
+            // calculate the new height depending on our new width and ratio
             height = width * ratio;
 
             video.style.height = `${height}px`;
@@ -138,7 +136,7 @@ function doVideoLogic() {
                 }
                 modal.classList.remove('show');
             }
-            // stop moving when mouse button is released:
+            // Stop moving when mouse button is released.
             document.onmouseup = null;
             document.onmousemove = null;
             setTimeout(function() { video.controls = true; }, 100);
@@ -154,10 +152,10 @@ function doVideoLogic() {
             if (!document.fullscreenElement) { pauseVideo(); }
     }, false);
 
-    // although it's a function, there's few listener in it
+    // Although it's a function, there's few listener in it.
     dragAndZoom(modal);
 }
 
 
-// calls the function from the pythpn-side and inserts its output to the js-function
+// Calls the function from the pythpn-side and inserts its output to the js-function.
 eel.get_sorted_webm()(createPage);
