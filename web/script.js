@@ -67,11 +67,11 @@ function doVideoLogic() {
         elmnt.onwheel = zoomVideo;
 
         function zoomVideo(e) {
-            video.style.maxHeight = null;
-
             e = e || window.event;
             e.preventDefault();
-            let scrollDelta = e.deltaY
+            
+            video.style.maxHeight = null;
+            let scrollDelta = e.deltaY;
 
             // calculate a ratio
             const ratio = video.videoHeight / video.videoWidth;
