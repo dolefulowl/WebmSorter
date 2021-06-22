@@ -146,14 +146,11 @@ function doVideoLogic() {
 
     /*------------------------Add listeners------------------------*/
     document.addEventListener('click', closeModal);
-    thumbs.forEach((thumb) => {thumb.addEventListener('click', openModal);
-    });
+    thumbs.forEach((thumb) => {thumb.addEventListener('click', openModal);});
 
     modal.addEventListener('fullscreenchange', function(event) {
-            if (!document.fullscreenElement) {
-                pauseVideo();
-            }
-        }, false);
+            if (!document.fullscreenElement) { pauseVideo(); }
+    }, false);
 
     // although it's a function, there's few listener in it
     dragAndZoom(modal);
