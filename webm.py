@@ -12,7 +12,8 @@ class Webm:
         self.webm_amount_path = webm_amount_path
         self.webms = self._video_list()
         self.amount = len(self.webms)
-
+    
+    # get only videos from a directory
     def _video_list(self):
         files = os.listdir(self.webm_folder)
         video_list = []
