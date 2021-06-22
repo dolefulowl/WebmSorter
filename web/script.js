@@ -10,7 +10,9 @@ function createPage (dates_names) {
       let time = document.createElement('time');
       time.className = 'date'
       time.innerHTML = date;
+        
       document.body.append(time, div);
+        
       dates_names[date].forEach(function (name) {
         const rawName = name.replace(/\.[^/.]+$/, "")
         const path = `webm/${name}`
