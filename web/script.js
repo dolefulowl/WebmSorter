@@ -30,15 +30,15 @@ function doVideoLogic() {
     const modal = document.querySelector('.modal');
     const thumbs = document.querySelectorAll('.thumbmail');
     const video = document.querySelector('.modal video');
-    let videoOpen = false;
+    let isVideoOpen = false;
     
     function pauseVideo() {
-        videoOpen = false;
+        isVideoOpen = false;
         video.pause();
     }
 
     function openModal (e) {
-        videoOpen = true;
+        isVideoOpen = true;
         const path = e.path[1]['id'];
         const name = e.path[1].attributes['data-name'].value;
         video.src =`${path}`;
@@ -55,7 +55,7 @@ function doVideoLogic() {
     }
 
     function closeModal (e) {
-        if(!videoOpen) { return };
+        if(!isVideoOpen) { return };
         const clickedElement = e.path[0].attributes['class'].value;
         if(clickedElement === 'date' || clickedElement === 'date-container') {
             pauseVideo();
