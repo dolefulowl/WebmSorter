@@ -31,11 +31,16 @@ function doVideoLogic() {
     const thumbs = document.querySelectorAll('.thumbmail');
     const video = document.querySelector('.modal video');
     let videoOpen = false;
+    
+    function pauseVideo() {
+        videoOpen = false;
+        video.pause();
+    }
 
     function openModal (e) {
         videoOpen = true;
         const path = e.path[1]['id'];
-        const name = e.path[1].attributes['data-name'].value
+        const name = e.path[1].attributes['data-name'].value;
         video.src =`${path}`;
 
         // remove the custom resolution
@@ -50,17 +55,12 @@ function doVideoLogic() {
     }
 
     function closeModal (e) {
-        if(!videoOpen) { return }
+        if(!videoOpen) { return };
         const clickedElement = e.path[0].attributes['class'].value;
         if(clickedElement === 'date' || clickedElement === 'date-container') {
             pauseVideo();
             modal.classList.remove('show');
         }
-    }
-
-    function pauseVideo() {
-        videoOpen = false;
-        video.pause();
     }
 
     function dragAndZoom(elmnt) {
@@ -131,7 +131,7 @@ function doVideoLogic() {
                 if(isFullScreen) {
                     let closeFullScreen = (document.cancelFullScreen || document.webkitCancelFullScreen);
                     closeFullScreen.call(document);
-                } else{
+                } else {
                     pauseVideo();
                 }
                 modal.classList.remove('show');
