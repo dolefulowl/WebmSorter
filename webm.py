@@ -28,15 +28,13 @@ class Webm:
         vidcap = cv2.VideoCapture(video)
         success, image = vidcap.read()
         frames = 0
-        while True:
-            if frames == 30:
-                try:
-                    cv2.imwrite(f'{self.thumb_folder}{name}.png', image)
-                except Exception as e:
-                    print(e)
-                vidcap.release()
-            elif frames > 30:
-                break
+        while frames != 30:
+            try:
+                cv2.imwrite(f'{self.thumb_folder}{name}.png', image)
+            except Exception as e:
+                print(e)
+            vidcap.release()
+
             success, image = vidcap.read()
             frames += 1
 
